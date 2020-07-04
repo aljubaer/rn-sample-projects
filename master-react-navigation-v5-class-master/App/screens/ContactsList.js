@@ -1,0 +1,30 @@
+import React from "react";
+import { FlatList } from "react-native";
+
+import { Row, Separator } from "../components/Row";
+import users from "../data/users";
+
+export default (props) => (
+  <FlatList
+    data={users}
+    keyExtractor={item => {
+      return `${item.id.value}-${item.phone}`;
+    }}
+    renderItem={({ item }) => {
+      const name = `${item.name.first} ${item.name.last}`;
+
+      return (
+        <Row
+          image={{ uri: item.picture.thumbnail }}
+          title={name}
+          subtitle={item.email}
+          onPress={() => props.navigation.navigate("ContactDetails", {contact: item})}
+        />
+      );
+    }}
+    ItemSeparatorComponent={Separator}
+    ListHeaderComponent={() => <Separator />}
+    ListFooterComponent={() => <Separator />}
+    contentContainerStyle={{ paddingVertical: 20 }}
+  />
+);
